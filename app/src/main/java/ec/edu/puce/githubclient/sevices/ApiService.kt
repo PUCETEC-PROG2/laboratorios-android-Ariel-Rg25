@@ -1,15 +1,19 @@
-package ec.edu.puce.githubclient.services
+package ec.edu.puce.githubclient.sevices
 
 import ec.edu.puce.githubclient.models.Repository
 import ec.edu.puce.githubclient.models.RepositoryPayload
+import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("/user/repos")
+    @GET("user/repos")
     suspend fun getRepositories(
         @Query("sort") sort: String = "created",
         @Query("direction") direction: String = "desc",
@@ -22,5 +26,17 @@ interface ApiService {
     suspend fun createRepository (
         @Body repository: RepositoryPayload
     ) : Repository
-}
 
+    @DELETE("repos/{owner}/{repo}")
+    suspend fun deleteRepository(
+        @Path("owner") owner: String,
+        @Path("repo") repoName: String
+    ): Response<Unit>
+
+    @PATCH("repos/{owner}/{repo}")
+    suspend fun updateRepository(
+        @Path("owner") owner: String,
+        @Path("repo") repoName: String,
+        @Body repository: RepositoryPayload
+    ): Repository
+}

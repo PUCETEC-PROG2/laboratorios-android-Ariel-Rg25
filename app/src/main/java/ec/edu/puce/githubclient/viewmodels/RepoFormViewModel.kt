@@ -15,31 +15,39 @@ class RepoFormViewModel: ViewModel() {
 
     private val _errorMsg = MutableStateFlow<String?>(null)
     val errorMsg: StateFlow<String?> = _errorMsg.asStateFlow()
+
     private val _inSuccess = MutableStateFlow(false)
     val inSuccess: StateFlow<Boolean> = _inSuccess.asStateFlow()
 
-    init {
-        _errorMsg
-    }
-    fun createRepo (name: String, description: String) {
+
+    fun saveRepo(name: String, description: String, originalRepoName: String? = null, ownerLogin: String? = null) {
         viewModelScope.launch {
             _isLoading.value = true
             _errorMsg.value = null
             try {
-                val repoBody = RepositoryPayload(name,description)
-                RetrofitClient.apiService.createRepository( repoBody)
+                val repoBody = RepositoryPayload(name, description)
+
+                if (originalRepoName != null && ownerLogin != null) {
+
+                    RetrofitClient.apiService.updateRepository(ownerLogin, originalRepoName, repoBody)
+                } else {
+
+                    RetrofitClient.apiService.createRepository(repoBody)
+                }
+
                 _inSuccess.value = true
             } catch (e: Exception) {
-                _errorMsg.value = "Error al cargar: ${e.localizedMessage}"
-            }finally {
+                _errorMsg.value = "Error al guardar: ${e.localizedMessage}"
+            } finally {
                 _isLoading.value = false
             }
         }
     }
 
     fun resetSuccess() {
-        _isLoading.value = false
+        _inSuccess.value = false
     }
+
     fun resetError() {
         _errorMsg.value = null
     }

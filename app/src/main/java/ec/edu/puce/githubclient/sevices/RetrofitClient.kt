@@ -1,6 +1,7 @@
 package ec.edu.puce.githubclient.services
 
 import ec.edu.puce.githubclient.BuildConfig
+import ec.edu.puce.githubclient.sevices.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
