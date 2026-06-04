@@ -1,7 +1,7 @@
 # Laboratorio Android. Cliente de GitHub
 
 ## Datos del estudiante
-- [Josue Herrera]
+- [Ariel Rueda]
 - [PUCETEC - Desarrollo de Software]
 
 ## Descripción del Proyecto
